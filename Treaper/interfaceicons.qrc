@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/Assets/Interface/Icons">
+        <file>Assets/Interface/Icons/general.png</file>
+        <file>Assets/Interface/Icons/add.png</file>
+        <file>Assets/Interface/Icons/erase.png</file>
+        <file>Assets/Interface/Icons/merge.png</file>
+        <file>Assets/Interface/Icons/Split.png</file>
+        <file>Assets/Interface/Icons/StructAdd.png</file>
+        <file>Assets/Interface/Icons/StructRemove.png</file>
+        <file>Assets/Interface/Icons/merge_dis.png</file>
+        <file>Assets/Interface/Icons/split_dis.png</file>
+        <file>Assets/Interface/Icons/add_dis.png</file>
+        <file>Assets/Interface/Icons/erase_dis.png</file>
+        <file>Assets/Interface/Icons/StructRemove_dis.png</file>
+    </qresource>
+</RCC>
