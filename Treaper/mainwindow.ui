@@ -1173,8 +1173,8 @@
    </property>
    <property name="iconSize">
     <size>
-     <width>30</width>
-     <height>26</height>
+     <width>32</width>
+     <height>30</height>
     </size>
    </property>
    <attribute name="toolBarArea">
@@ -1632,8 +1632,8 @@
    </property>
    <property name="iconSize">
     <size>
-     <width>20</width>
-     <height>20</height>
+     <width>24</width>
+     <height>24</height>
     </size>
    </property>
    <property name="floatable">
@@ -1649,6 +1649,7 @@
    <addaction name="actionAddUnit"/>
    <addaction name="actionRemoveUnit"/>
    <addaction name="separator"/>
+   <addaction name="actionAddRandUnit"/>
   </widget>
   <action name="actionFile">
    <property name="checkable">
@@ -1762,6 +1763,16 @@
    </property>
    <property name="text">
     <string>SplitTreap</string>
+   </property>
+  </action>
+  <action name="actionAddRandUnit">
+   <property name="icon">
+    <iconset resource="interfaceicons.qrc">
+     <normaloff>:/Assets/Interface/Icons/Assets/Interface/Icons/add_rand.png</normaloff>
+     <disabledoff>:/Assets/Interface/Icons/Assets/Interface/Icons/add_rand_dis.png</disabledoff>:/Assets/Interface/Icons/Assets/Interface/Icons/add_rand.png</iconset>
+   </property>
+   <property name="text">
+    <string>AddRandUnit</string>
    </property>
   </action>
  </widget>

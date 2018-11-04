@@ -9,6 +9,7 @@ AddUnit::AddUnit(QWidget *parent) :
 
     mData = 0;
     mCreateEnabled = false;
+    mErrors = false;
     setDefaultConfigs();
 }
 
@@ -20,6 +21,8 @@ AddUnit::~AddUnit()
 void AddUnit::setDefaultConfigs()
 {
     ui->RadioDataTypeInt->setChecked(true);
+    mCreateEnabled = false;
+    mErrors = false;
 }
 
 bool AddUnit::isCreateEnabled()
@@ -32,10 +35,19 @@ int AddUnit::data()
     return mData;
 }
 
+bool AddUnit::isOK()
+{
+    return mErrors;
+}
+
 void AddUnit::on_buttonBox_accepted()
 {
+    bool ok;
+    mData = ui->InputField->displayText().toInt(&ok);
+    if(!ok)
+        mErrors = true;
+
     mCreateEnabled = true;
-    mData = ui->InputField->displayText().toInt();
     AddUnit::close();
 }
 

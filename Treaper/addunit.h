@@ -19,6 +19,8 @@ public:
     bool isCreateEnabled();
     int data();
 
+    bool isOK();
+
 private slots:
     void on_buttonBox_accepted();
 
@@ -29,6 +31,7 @@ private:
 
     int mData;
     bool mCreateEnabled;
+    bool mErrors;
 };
 
 #endif // ADDUNIT_H

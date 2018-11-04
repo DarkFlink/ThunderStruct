@@ -8,7 +8,6 @@ AddDataStructure(QDialog *parent) :
 {
     ui->setupUi(this);
 
-    ui->DataType->addItem("int");
     ui->Structure->addItem("MergeQueue");
 
     mCreateEnabled = false;

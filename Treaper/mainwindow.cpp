@@ -10,8 +10,9 @@ MainWindow::MainWindow(QWidget *parent) :
     mAddDataStructureWidget = new AddDataStructure(nullptr);
     mAddUnitWidget = new AddUnit(nullptr);
     mSplitQueuesWidget = new SplitQueues(nullptr);
+    mMergeQueueWidget = new MergeDialog(nullptr);
 
-    setDefaultActionsConfigs();
+    setDefaultConfigs();
 }
 
 MainWindow::~MainWindow()
@@ -20,6 +21,17 @@ MainWindow::~MainWindow()
     delete mAddDataStructureWidget;
     delete mAddUnitWidget;
     delete mSplitQueuesWidget;
+    delete mMergeQueueWidget;
+}
+
+void MainWindow::setDefaultConfigs()
+{
+    setDefaultActionsConfigs();
+    ui->StructScheme->clear();
+    ui->StructElemList->clear();
+    ui->StructSizeField_2->clear();
+    ui->TopElDataField_2->clear();
+    ui->DataTypeField_2->clear();
 }
 
 void MainWindow::setDefaultActionsConfigs()
@@ -30,11 +42,13 @@ void MainWindow::setDefaultActionsConfigs()
     ui->actionRemoveUnit->setDisabled(true);
     ui->actionSplitTreap->setDisabled(true);
     ui->StructInfoBar->setDisabled(true);
+    ui->actionAddRandUnit->setDisabled(true);
 }
 
 void MainWindow::setUnitActionConfigs(bool flag)
 {
     ui->actionAddUnit->setEnabled(flag);
+    ui->actionAddRandUnit->setEnabled(flag);
     ui->actionRemoveUnit->setEnabled(flag);
 }
 
@@ -50,37 +64,28 @@ void MainWindow::setStructActionConfigs(bool flag)
 
 void MainWindow::on_actionAddStruct_triggered()
 {
-    QPoint mPoint;
-    mPoint.setX(MainWindow::width()/3);
-    mPoint.setY(MainWindow::height()/3);
-    mAddDataStructureWidget->move(MainWindow::mapToGlobal(mPoint));
-    mAddDataStructureWidget->exec();
-
+    execDialogForm(mAddDataStructureWidget);
     if(mAddDataStructureWidget->isCreateEnabled())
     {
         QString name = mAddDataStructureWidget->structImpl().UniqueName();
         if(!name.length())
-        {
             msgboxOutput("Empty name field.\n Try again", "Error", "ERR");
-            return;
-        }
-        if(isDublicate(name))
-        {
-                msgboxOutput("Struct with that name is\nalready created. Try again", "Error", "ERR");
-                return;
-        }
-        if(!mMergeQueues.size())
-        {
-            setUnitActionConfigs(true);
-            setStructActionConfigs(true);
-        }
 
-        if(mAddDataStructureWidget->structImpl().StructName() == "MergeQueue")
+        else if(isDublicate(name))
+            msgboxOutput("Struct with that name is\nalready created. Try again", "Error", "ERR");
+
+        else if(mAddDataStructureWidget->structImpl().StructName() == "MergeQueue")
         {
-            mMergeQueues.push_front(MyQMergeQueue<int>(mAddDataStructureWidget->structImpl().UniqueName()));
+            mMergeQueues.push_front(MyQMergeQueue<int>(name));
+            ui->StructsList->addItem(name);
+            mMergeQueueWidget->AddStruct(name);
+            if(mMergeQueues.size() == 1)
+            {
+                setUnitActionConfigs(true);
+                setStructActionConfigs(true);
+                on_StructsList_activated(name);
+            }
         }
-        ui->StructsList->addItem(name);
-        on_StructsList_activated(name);
     }
     mAddDataStructureWidget->setDefaultConfigs();
 }
@@ -94,18 +99,13 @@ void MainWindow::msgboxOutput(QString mMessage, QString mTitle, QString msgType)
     if(msgType == "ERR")
         msgBox->setIcon(QMessageBox::Critical);
 
-    QPoint mPoint;
-    mPoint.setX(MainWindow::width()/3);
-    mPoint.setY(MainWindow::height()/3);
-    msgBox->move(MainWindow::mapToGlobal(mPoint));
-
-    msgBox->exec();
+    execDialogForm(msgBox);
     delete msgBox;
 }
 
 void MainWindow::updateMainWindow(QString name)
 {
-    for(std::list<MyQMergeQueue<int>>::iterator i = mMergeQueues.begin(); i != mMergeQueues.end() ; i++)
+    for(auto i = mMergeQueues.begin(); i != mMergeQueues.end() ; i++)
     {
         if(i->UniqueName() == name)
         {
@@ -143,15 +143,16 @@ void MainWindow::updateMainWindow(QString name)
 
 void MainWindow::removeDataStruct()
 {
-    mMergeQueues.erase(mIterator);
+    mMergeQueueWidget->RemoveStruct(ui->StructsList->currentText());
     ui->StructsList->removeItem(ui->StructsList->currentIndex());
+    mMergeQueues.erase(mIterator);
     if(mMergeQueues.size() != 0)
     {
         mIterator = mMergeQueues.begin();
         updateMainWindow(mMergeQueues.begin()->UniqueName());
     }
     else
-        setDefaultActionsConfigs();
+        setDefaultConfigs();
 }
 
 bool MainWindow::isDublicate(QString name)
@@ -162,6 +163,23 @@ bool MainWindow::isDublicate(QString name)
     return false;
 }
 
+void MainWindow::execDialogForm(QDialog * mDialog)
+{
+    QPoint mPoint;
+    mPoint.setX(MainWindow::width()/3);
+    mPoint.setY(MainWindow::height()/3);
+    mDialog->move(MainWindow::mapToGlobal(mPoint));
+    mDialog->exec();
+}
+
+std::list<MyQMergeQueue<int>>::iterator MainWindow::findQueue(const QString &arg)
+{
+    for(auto it = mMergeQueues.begin(); it != mMergeQueues.end() ;it++)
+        if(it->UniqueName() == arg)
+            return it;
+    return mIterator;
+}
+
 void MainWindow::on_StructsList_activated(const QString &arg1)
 {
     updateMainWindow(arg1);
@@ -169,15 +187,20 @@ void MainWindow::on_StructsList_activated(const QString &arg1)
 
 void MainWindow::on_actionAddUnit_triggered()
 {
-    QPoint mPoint;
-    mPoint.setX(MainWindow::width()/3);
-    mPoint.setY(MainWindow::height()/3);
-    mAddUnitWidget->move(MainWindow::mapToGlobal(mPoint));
-    mAddUnitWidget->exec();
+    execDialogForm(mAddUnitWidget);
+    if(mAddUnitWidget->isCreateEnabled())
+    {
+        if(mAddUnitWidget->isOK())
+            msgboxOutput("Invalid input.\n Try again", "Error", "ERR");
 
-    int data = mAddUnitWidget->data();
-    mIterator->mQueue.Push(&data);
-    updateMainWindow(mIterator->UniqueName());
+        else
+        {
+            int data = mAddUnitWidget->data();
+            mIterator->mQueue.Push(&data);
+            updateMainWindow(mIterator->UniqueName());
+        }
+    }
+    mAddUnitWidget->setDefaultConfigs();
 }
 
 void MainWindow::on_actionRemoveUnit_triggered()
@@ -198,39 +221,60 @@ void MainWindow::on_actionRemoveStruct_triggered()
 
 void MainWindow::on_actionSplitTreap_triggered()
 {
-    QPoint mPoint;
-    mPoint.setX(MainWindow::width()/3);
-    mPoint.setY(MainWindow::height()/3);
-    mSplitQueuesWidget->move(MainWindow::mapToGlobal(mPoint));
-    mSplitQueuesWidget->exec();
-
-    if(isDublicate(mSplitQueuesWidget->Name1()) || isDublicate(mSplitQueuesWidget->Name2()) || mSplitQueuesWidget->Name2() == mSplitQueuesWidget->Name1())
+    execDialogForm(mSplitQueuesWidget);
+    if(mSplitQueuesWidget->isSplitEnabled())
     {
-        msgboxOutput("Duplicating data sturcture names.\n Try again", "Error", "ERR");
-        return;
-    }
+        if(isDublicate(mSplitQueuesWidget->Name1()) || isDublicate(mSplitQueuesWidget->Name2()) || mSplitQueuesWidget->Name2() == mSplitQueuesWidget->Name1())
+            msgboxOutput("Duplicating data sturcture names.\n Try again", "Error", "ERR");
 
-    if(mSplitQueuesWidget->isSplitEnabled()) {
-        try {
+        else if(mSplitQueuesWidget->data() >= mIterator->mQueue.Size())
+            msgboxOutput("Invalid splitter index.\n Try again", "Error", "ERR");
+
+        else if (!mSplitQueuesWidget->Name1().size() || !mSplitQueuesWidget->Name2().size())
+            msgboxOutput("Empty name field[s].\n Try again", "Error", "ERR");
+
+        else
+        {
+            // Add Queues in array
             mMergeQueues.push_back(MyQMergeQueue<int>(mSplitQueuesWidget->Name1()));
             auto it1 = mMergeQueues.end(); it1--;
             mMergeQueues.push_back(MyQMergeQueue<int>(mSplitQueuesWidget->Name2()));
             auto it2 = it1; it2++;
+
             mIterator->mQueue.Split(it1->mQueue, it2->mQueue, mSplitQueuesWidget->data());
 
+            // Add queues in interface
             ui->StructsList->addItem(mSplitQueuesWidget->Name1());
+            mMergeQueueWidget->AddStruct(mSplitQueuesWidget->Name1());
             ui->StructsList->addItem(mSplitQueuesWidget->Name2());
+            mMergeQueueWidget->AddStruct(mSplitQueuesWidget->Name2());
             removeDataStruct();
-
-        } catch (std::out_of_range &err) {
-            msgboxOutput(err.what(), "Error", "ERR");
-            return;
         }
+        mSplitQueuesWidget->setDefaultConfigs();
     }
-//    updateMainWindow(mMergeQueues[current_struct].UniqueName());
 }
 
 void MainWindow::on_actionMergeTreaps_triggered()
 {
+    execDialogForm(mMergeQueueWidget);
+    if(mMergeQueueWidget->isMergeEnabled())
+    {
+        if(mMergeQueueWidget->ChangedName() == mIterator->UniqueName())
+            msgboxOutput("Cannot merge queue by itself.\n Change another queue", "Warning", "WARN");
+        else
+        {
+            auto mFirst = findQueue(mMergeQueueWidget->ChangedName());
+            mIterator->mQueue.Merge(mFirst->mQueue);
+            updateMainWindow(mIterator->UniqueName());
+        }
+    }
+    mMergeQueueWidget->setDefaultConfigs();
+    ui->statusBar->showMessage("fwe");
+}
 
+void MainWindow::on_actionAddRandUnit_triggered()
+{
+    int data = std::rand() % 1000;
+    mIterator->mQueue.Push(&data);
+    updateMainWindow(mIterator->UniqueName());
 }

@@ -29,7 +29,8 @@ SOURCES += \
     adddatastructure.cpp \
     myqdatastructure.cpp \
     addunit.cpp \
-    splitqueues.cpp
+    splitqueues.cpp \
+    mergedialog.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -39,13 +40,15 @@ HEADERS += \
     adddatastructure.h \
     myqdatastructure.h \
     addunit.h \
-    splitqueues.h
+    splitqueues.h \
+    mergedialog.h
 
 FORMS += \
         mainwindow.ui \
     adddatastructure.ui \
     addunit.ui \
-    splitqueues.ui
+    splitqueues.ui \
+    mergedialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

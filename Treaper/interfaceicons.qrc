@@ -12,5 +12,7 @@
         <file>Assets/Interface/Icons/add_dis.png</file>
         <file>Assets/Interface/Icons/erase_dis.png</file>
         <file>Assets/Interface/Icons/StructRemove_dis.png</file>
+        <file>Assets/Interface/Icons/add_rand.png</file>
+        <file>Assets/Interface/Icons/add_rand_dis.png</file>
     </qresource>
 </RCC>

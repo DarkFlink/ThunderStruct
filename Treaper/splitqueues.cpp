@@ -17,6 +17,8 @@ SplitQueues::~SplitQueues()
 void SplitQueues::setDefaultConfigs()
 {
     mSplitEnabled = false;
+    mName1 = "";
+    mName2 = "";
 }
 
 bool SplitQueues::isSplitEnabled()
@@ -45,4 +47,10 @@ void SplitQueues::on_buttonBox_accepted()
     mData = ui->IndexField->displayText().toULong();
     mName1 = ui->LeftNameField->displayText();
     mName2 = ui->RightNameField->displayText();
+    SplitQueues::close();
+}
+
+void SplitQueues::on_buttonBox_rejected()
+{
+    SplitQueues::close();
 }
