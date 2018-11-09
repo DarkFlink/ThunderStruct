@@ -11,8 +11,10 @@ MainWindow::MainWindow(QWidget *parent) :
     mAddUnitWidget = new AddUnit(nullptr);
     mSplitQueuesWidget = new SplitQueues(nullptr);
     mMergeQueueWidget = new MergeDialog(nullptr);
+    mAboutWidget = new ThunderstruckAbout(nullptr);
 
     setDefaultConfigs();
+    createFileMenu();
 }
 
 MainWindow::~MainWindow()
@@ -22,6 +24,9 @@ MainWindow::~MainWindow()
     delete mAddUnitWidget;
     delete mSplitQueuesWidget;
     delete mMergeQueueWidget;
+    delete mAboutWidget;
+
+    delete mMenuFile;
 }
 
 void MainWindow::setDefaultConfigs()
@@ -38,17 +43,20 @@ void MainWindow::setDefaultActionsConfigs()
 {
     ui->actionAddUnit->setDisabled(true);
     ui->actionMergeTreaps->setDisabled(true);
+    ui->actionStructAbout->setDisabled(true);
     ui->actionRemoveStruct->setDisabled(true);
     ui->actionRemoveUnit->setDisabled(true);
     ui->actionSplitTreap->setDisabled(true);
     ui->StructInfoBar->setDisabled(true);
     ui->actionAddRandUnit->setDisabled(true);
+    ui->actionAddTenRandUnits->setDisabled(true);
 }
 
 void MainWindow::setUnitActionConfigs(bool flag)
 {
     ui->actionAddUnit->setEnabled(flag);
     ui->actionAddRandUnit->setEnabled(flag);
+    ui->actionAddTenRandUnits->setEnabled(flag);
     ui->actionRemoveUnit->setEnabled(flag);
 }
 
@@ -57,7 +65,14 @@ void MainWindow::setStructActionConfigs(bool flag)
     ui->actionRemoveStruct->setEnabled(flag);
     ui->actionMergeTreaps->setEnabled(flag);
     ui->actionSplitTreap->setEnabled(flag);
+    ui->actionStructAbout->setEnabled(flag);
     ui->StructInfoBar->setEnabled(flag);
+}
+
+void MainWindow::createFileMenu()
+{
+    mMenuFile = new QMenu;
+    mMenuFile->addAction(ui->actionExit);
 }
 
 //_________SLOTS_________//
@@ -277,4 +292,60 @@ void MainWindow::on_actionAddRandUnit_triggered()
     int data = std::rand() % 1000;
     mIterator->mQueue.Push(&data);
     updateMainWindow(mIterator->UniqueName());
+}
+
+void MainWindow::on_actionAddTenRandUnits_triggered()
+{
+    for(int i=0; i<10; i++)
+        on_actionAddRandUnit_triggered();
+}
+
+void MainWindow::on_actionFile_triggered()
+{
+    QPoint mo;
+    mo.setX(ui->ToolbarMenu->pos().x()+4);
+    mo.setY(ui->ToolbarMenu->pos().y()+46);
+    mMenuFile->move(ui->ToolbarMenu->mapToGlobal(mo));
+
+    if(!ui->actionFile->isCheckable())
+        ui->actionFile->setCheckable(true);
+
+    ui->actionFile->setChecked(true);
+    mMenuFile->exec();
+    ui->actionFile->setChecked(false);
+}
+
+void MainWindow::on_actionExit_triggered()
+{
+    QMessageBox msgBox;
+    msgBox.setPalette(MainWindow::palette());
+    QPoint mPoint;
+    mPoint.setX(MainWindow::width()/3);
+    mPoint.setY(MainWindow::height()/3);
+    msgBox.move(MainWindow::mapToGlobal(mPoint));
+    msgBox.setWindowTitle("Exit");
+    msgBox.setText("Are you sure want\n          to exit?");
+    msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+
+    int res = msgBox.exec();
+    if(res == QMessageBox::Ok)
+        MainWindow::close();
+    else
+        msgBox.close();
+}
+
+void MainWindow::on_actionAbout_triggered()
+{
+    QPoint mPoint;
+    mPoint.setX(MainWindow::width()/3);
+    mPoint.setY(MainWindow::height()/3);
+    mAboutWidget->move(MainWindow::mapToGlobal(mPoint));
+    mAboutWidget->show();
+}
+
+void MainWindow::on_actionStructAbout_triggered()
+{
+    AboutDataStructure mDialog;
+    mDialog.SetMergeQueueDefinition();
+    execDialogForm(&mDialog);
 }

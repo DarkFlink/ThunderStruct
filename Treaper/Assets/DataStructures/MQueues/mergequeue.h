@@ -84,7 +84,7 @@ void MergeQueue<TYPE>::PrintData(std::string &out)
 template<class TYPE>
 void MergeQueue<TYPE>::Merge(MergeQueue<TYPE>& queue)
 {
-    mRoot = ImplicitTreapNode<TYPE>::Merge(mRoot, queue.mRoot);
+    mRoot = ImplicitTreapNode<TYPE>::Merge(queue.mRoot, mRoot);
     queue.mRoot = nullptr;
 }
 

@@ -20,7 +20,6 @@ AddUnit::~AddUnit()
 
 void AddUnit::setDefaultConfigs()
 {
-    ui->RadioDataTypeInt->setChecked(true);
     mCreateEnabled = false;
     mErrors = false;
 }

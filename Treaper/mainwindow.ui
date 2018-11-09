@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>771</width>
-    <height>566</height>
+    <width>700</width>
+    <height>535</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,7 +19,7 @@
   <property name="minimumSize">
    <size>
     <width>400</width>
-    <height>300</height>
+    <height>320</height>
    </size>
   </property>
   <property name="palette">
@@ -451,18 +451,6 @@
        </size>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_4">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
@@ -580,7 +568,7 @@
            </property>
            <property name="minimumSize">
             <size>
-             <width>0</width>
+             <width>120</width>
              <height>0</height>
             </size>
            </property>
@@ -631,58 +619,35 @@
              </layout>
             </item>
             <item>
-             <widget class="QLabel" name="label_4">
-              <property name="text">
-               <string>Top:</string>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <item>
+               <widget class="QLabel" name="label_4">
+                <property name="text">
+                 <string>Top:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="TopElDataField_2">
+                <property name="text">
+                 <string>-</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
             <item>
-             <widget class="QTextBrowser" name="TopElDataField_2">
-              <property name="maximumSize">
+             <spacer name="verticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
                <size>
-                <width>16777215</width>
-                <height>16777215</height>
+                <width>20</width>
+                <height>40</height>
                </size>
               </property>
-              <property name="palette">
-               <palette>
-                <active>
-                 <colorrole role="Base">
-                  <brush brushstyle="SolidPattern">
-                   <color alpha="255">
-                    <red>46</red>
-                    <green>52</green>
-                    <blue>54</blue>
-                   </color>
-                  </brush>
-                 </colorrole>
-                </active>
-                <inactive>
-                 <colorrole role="Base">
-                  <brush brushstyle="SolidPattern">
-                   <color alpha="255">
-                    <red>46</red>
-                    <green>52</green>
-                    <blue>54</blue>
-                   </color>
-                  </brush>
-                 </colorrole>
-                </inactive>
-                <disabled>
-                 <colorrole role="Base">
-                  <brush brushstyle="SolidPattern">
-                   <color alpha="255">
-                    <red>46</red>
-                    <green>52</green>
-                    <blue>54</blue>
-                   </color>
-                  </brush>
-                 </colorrole>
-                </disabled>
-               </palette>
-              </property>
-             </widget>
+             </spacer>
             </item>
            </layout>
           </widget>
@@ -694,7 +659,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QToolBar" name="toolBar">
+  <widget class="QToolBar" name="ToolbarMenu">
    <property name="sizePolicy">
     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
      <horstretch>0</horstretch>
@@ -1143,10 +1108,8 @@
    <addaction name="actionFile"/>
    <addaction name="separator"/>
    <addaction name="actionAbout"/>
-   <addaction name="separator"/>
-   <addaction name="actionHelp"/>
   </widget>
-  <widget class="QToolBar" name="toolBar_2">
+  <widget class="QToolBar" name="ToolbarDataStructs">
    <property name="sizePolicy">
     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
      <horstretch>0</horstretch>
@@ -1174,7 +1137,7 @@
    <property name="iconSize">
     <size>
      <width>32</width>
-     <height>30</height>
+     <height>32</height>
     </size>
    </property>
    <attribute name="toolBarArea">
@@ -1187,6 +1150,7 @@
    <addaction name="separator"/>
    <addaction name="actionAddStruct"/>
    <addaction name="actionRemoveStruct"/>
+   <addaction name="actionStructAbout"/>
    <addaction name="separator"/>
    <addaction name="actionSplitTreap"/>
    <addaction name="actionMergeTreaps"/>
@@ -1620,7 +1584,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QToolBar" name="toolBar_3">
+  <widget class="QToolBar" name="ToolbarUnits">
    <property name="enabled">
     <bool>true</bool>
    </property>
@@ -1632,8 +1596,8 @@
    </property>
    <property name="iconSize">
     <size>
-     <width>24</width>
-     <height>24</height>
+     <width>26</width>
+     <height>26</height>
     </size>
    </property>
    <property name="floatable">
@@ -1650,6 +1614,7 @@
    <addaction name="actionRemoveUnit"/>
    <addaction name="separator"/>
    <addaction name="actionAddRandUnit"/>
+   <addaction name="actionAddTenRandUnits"/>
   </widget>
   <action name="actionFile">
    <property name="checkable">
@@ -1721,11 +1686,6 @@
     <string>AddStruct</string>
    </property>
   </action>
-  <action name="actionHelp">
-   <property name="text">
-    <string>Help</string>
-   </property>
-  </action>
   <action name="actionRemoveStruct">
    <property name="enabled">
     <bool>true</bool>
@@ -1773,6 +1733,31 @@
    </property>
    <property name="text">
     <string>AddRandUnit</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionAddTenRandUnits">
+   <property name="icon">
+    <iconset resource="interfaceicons.qrc">
+     <normaloff>:/Assets/Interface/Icons/Assets/Interface/Icons/addten_rand.png</normaloff>
+     <disabledoff>:/Assets/Interface/Icons/Assets/Interface/Icons/addten_rand_dis.png</disabledoff>:/Assets/Interface/Icons/Assets/Interface/Icons/addten_rand.png</iconset>
+   </property>
+   <property name="text">
+    <string>AddTenRandUnits</string>
+   </property>
+  </action>
+  <action name="actionStructAbout">
+   <property name="icon">
+    <iconset resource="interfaceicons.qrc">
+     <normaloff>:/Assets/Interface/Icons/Assets/Interface/Icons/info.png</normaloff>
+     <disabledoff>:/Assets/Interface/Icons/Assets/Interface/Icons/info_dis.png</disabledoff>:/Assets/Interface/Icons/Assets/Interface/Icons/info.png</iconset>
+   </property>
+   <property name="text">
+    <string>StructAbout</string>
    </property>
   </action>
  </widget>

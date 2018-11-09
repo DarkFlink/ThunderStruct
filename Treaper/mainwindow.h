@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <QMessageBox>
+#include <QMenu>
 #include <QToolBar>
 #include <list>
 
@@ -11,6 +12,8 @@
 #include "addunit.h"
 #include "splitqueues.h"
 #include "mergedialog.h"
+#include "thunderstruckabout.h"
+#include "aboutdatastructure.h"
 
 namespace Ui {
 class MainWindow;
@@ -28,6 +31,7 @@ public:
     void setDefaultActionsConfigs();
     void setUnitActionConfigs(bool flag);
     void setStructActionConfigs(bool flag);
+    void createFileMenu();
 
     void msgboxOutput(QString, QString, QString);
     void updateMainWindow(QString);
@@ -56,6 +60,16 @@ private slots:
 
     void on_actionAddRandUnit_triggered();
 
+    void on_actionFile_triggered();
+
+    void on_actionExit_triggered();
+
+    void on_actionAbout_triggered();
+
+    void on_actionAddTenRandUnits_triggered();
+
+    void on_actionStructAbout_triggered();
+
 private:
     Ui::MainWindow *ui;
 
@@ -63,6 +77,9 @@ private:
     AddUnit* mAddUnitWidget;
     SplitQueues* mSplitQueuesWidget;
     MergeDialog* mMergeQueueWidget;
+    ThunderstruckAbout* mAboutWidget;
+
+    QMenu* mMenuFile;
 
     std::list<MyQMergeQueue<int>>::iterator mIterator;
     std::list<MyQMergeQueue<int>> mMergeQueues;

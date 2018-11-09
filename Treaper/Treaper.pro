@@ -30,7 +30,9 @@ SOURCES += \
     myqdatastructure.cpp \
     addunit.cpp \
     splitqueues.cpp \
-    mergedialog.cpp
+    mergedialog.cpp \
+    thunderstruckabout.cpp \
+    aboutdatastructure.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -41,14 +43,18 @@ HEADERS += \
     myqdatastructure.h \
     addunit.h \
     splitqueues.h \
-    mergedialog.h
+    mergedialog.h \
+    thunderstruckabout.h \
+    aboutdatastructure.h
 
 FORMS += \
         mainwindow.ui \
     adddatastructure.ui \
     addunit.ui \
     splitqueues.ui \
-    mergedialog.ui
+    mergedialog.ui \
+    thunderstruckabout.ui \
+    aboutdatastructure.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -14,5 +14,9 @@
         <file>Assets/Interface/Icons/StructRemove_dis.png</file>
         <file>Assets/Interface/Icons/add_rand.png</file>
         <file>Assets/Interface/Icons/add_rand_dis.png</file>
+        <file>Assets/Interface/Icons/addten_rand.png</file>
+        <file>Assets/Interface/Icons/addten_rand_dis.png</file>
+        <file>Assets/Interface/Icons/info.png</file>
+        <file>Assets/Interface/Icons/info_dis.png</file>
     </qresource>
 </RCC>
